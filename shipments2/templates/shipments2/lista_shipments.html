@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lista de Envíos</title>
+    <style>
+        /* Paleta de tonos cálidos */
+        :root {
+            --bg-color: #FAF4EE;         /* Beige cálido suave */
+            --card-bg: #FFFFFF;          /* Blanco para la tarjeta */
+            --primary-color: #C85A32;    /* Terracota */
+            --primary-hover: #A74320;    
+            --text-color: #3D2C2E;       /* Marrón muy oscuro */
+            --table-header: #F3E5D8;     /* Arena claro */
+            --table-hover: #FAF0E6;      /* Beige claro */
+            --border-color: #E2D4C9;     /* Borde suave */
+            --btn-edit: #D9822B;         /* Ámbar para editar */
+            --btn-delete: #C0392B;       /* Rojo cálido para eliminar */
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            margin: 0;
+            padding: 40px 20px;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background-color: var(--card-bg);
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(180, 100, 50, 0.08);
+            border: 1px solid var(--border-color);
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+            border-bottom: 2px solid var(--table-header);
+            padding-bottom: 15px;
+        }
+
+        h1 {
+            color: var(--primary-color);
+            margin: 0;
+            font-size: 28px;
+        }
+
+        .btn-add {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 10px 18px;
+            text-decoration: none;
+            border-radius: 6px;
+            font-weight: 600;
+            transition: background-color 0.2s ease;
+        }
+
+        .btn-add:hover {
+            background-color: var(--primary-hover);
+        }
+
+        .table-responsive {
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            text-align: left;
+        }
+
+        th {
+            background-color: var(--table-header);
+            color: var(--text-color);
+            padding: 14px 16px;
+            font-weight: 600;
+            border-bottom: 2px solid var(--border-color);
+        }
+
+        td {
+            padding: 14px 16px;
+            border-bottom: 1px solid var(--border-color);
+            vertical-align: middle;
+        }
+
+        tr:hover {
+            background-color: var(--table-hover);
+        }
+
+        .actions-cell {
+            white-space: nowrap;
+        }
+
+        .btn-action {
+            display: inline-block;
+            padding: 6px 12px;
+            font-size: 13px;
+            font-weight: 600;
+            text-decoration: none;
+            border-radius: 4px;
+            color: white;
+            margin-right: 5px;
+            transition: opacity 0.2s ease;
+        }
+
+        .btn-action:hover {
+            opacity: 0.85;
+        }
+
+        .btn-edit {
+            background-color: var(--btn-edit);
+        }
+
+        .btn-delete {
+            background-color: var(--btn-delete);
+        }
+
+        .empty-message {
+            text-align: center;
+            padding: 30px;
+            color: #8C7A6B;
+            font-style: italic;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <div class="header">
+            <h1>Gestión de Envíos</h1>
+            <a href="{% url 'nuevo_shipment' %}" class="btn-add">+ Nuevo Envío</a>
+        </div>
+
+        <div class="table-responsive">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Lote</th>
+                        <th>ETA</th>
+                        <th>Producto</th>
+                        <th>Fecha Entrega</th>
+                        <th style="text-align: center;">Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for envio in envios %}
+                        <tr>
+                            <td><strong>{{ envio.LOTENUM }}</strong></td>
+                            <td>{{ envio.FECHAETA }}</td>
+                            <td>{{ envio.producto }}</td>
+                            <td>{{ envio.FECHAENTREGA }}</td>
+                            <td style="text-align: center;" class="actions-cell">
+                                <td style="text-align: center;" class="actions-cell">
+    <a href="{% url 'editar_shipment' envio.shipment_id %}" class="btn-action btn-edit">Editar</a>
+    <a href="{% url 'eliminar_shipment' envio.shipment_id %}" class="btn-action btn-delete">Eliminar</a>
+</td>
+                            </td>
+                        </tr>
+                    {% empty %}
+                        <tr>
+                            <td colspan="5" class="empty-message">
+                                No se encontraron registros de envíos en la base de datos.
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+</body>
+</html>

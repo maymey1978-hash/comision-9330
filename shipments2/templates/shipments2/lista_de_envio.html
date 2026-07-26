@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lista de Envíos</title>
+</head>
+<body>
+
+    <h1>Lista de Envíos</h1>
+
+    <ul>
+        {% for envio in envios %}
+            <li>{{ envio.shipment_id }} - {{ envio.producto }} - {{ envio.FECHAETA }}</li>
+        {% empty %}
+            <li>No hay envíos registrados en la base de datos.</li>
+        {% endfor %}
+    </ul>
+
+</body>
+</html>
