@@ -21,3 +21,17 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('shipments2/', include('shipments2.urls')),
 ]
+from django.contrib import admin
+from django.urls import path, include
+from django.conf import settings
+from django.conf.urls.static import static
+
+urlpatterns = [
+    path('admin/', admin.site.urls),
+    path('blog/', include('blog.urls')), # <--- Agregamos la ruta del blog
+    path('', include('shipments2.urls')), # O la app que tengas como inicio
+]
+
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+    
